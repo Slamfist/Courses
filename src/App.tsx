@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 
 import { Wrapper } from './styled';
 import { SideMenu, Cards } from './components';
@@ -9,8 +9,11 @@ export const App = () => {
   const [active, setActive] = useState('all');
 
   const courses = useListCourses();
-  const tags = getTags(courses);
-  const sortedCourses = getSortedCourses(active, courses);
+  const tags = useMemo(() => getTags(courses), [courses]);
+  const sortedCourses = useMemo(
+    () => getSortedCourses(active, courses),
+    [active, courses],
+  );
 
   return (
     <Wrapper>
